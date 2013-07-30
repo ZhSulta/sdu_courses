@@ -1,4 +1,58 @@
 #{extends 'main.html' /}
 #{set title:'Home' /}
-
-#{welcome /}
+    <style type="text/css">
+      .span4 {
+        padding-top: 20px;        
+      }
+    </style>	
+<div class="container">   
+	<div class="row">
+		#{if universityCourses}
+			<div class="span12"><h3>University courses</h3></div>
+			#{list items:universityCourses, as:'i'}			
+					<div class="span4">
+						<div class="thumbnail">
+							<a href="@{MyOwnCourse.checkCourse(i.id)}"><img src="@{Application.coursePhoto(i.id)}" style="width: 370px; height: 160px;"></a>					
+							<div class="caption">
+								<h3>
+								&{i.name}
+								</h3>
+								<p>
+								#{if i.smallDescription}
+									&{i.smallDescription}
+								#{/if}
+			                  	#{else}
+			                  		No Description
+			                  	#{/else}
+				     			</p>					
+							</div>
+						</div>
+					</div>			
+			#{/list}	
+		#{/if}
+				
+		#{if userCourses}
+			<div class = "span12"><h3>User courses</h3></div>
+			#{list items:userCourses, as:'i'}			
+					<div class="span4">
+						<div class="thumbnail">
+							<a href="@{MyOwnCourse.checkCourse(i.id)}"><img src="@{Application.coursePhoto(i.id)}" style="width: 370px; height: 160px;"></a>					
+							<div class="caption">
+								<h3>
+								&{i.name}
+								</h3>
+								<p>
+								#{if i.smallDescription}
+									&{i.smallDescription}
+								#{/if}
+			                  	#{else}
+			                  		No Description
+			                  	#{/else}
+				     			</p>					
+							</div>
+						</div>
+					</div>			
+			#{/list}
+		#{/if}		
+	</div>						
+</div>

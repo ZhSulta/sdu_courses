@@ -1,0 +1,104 @@
+#{extends 'mainOwnCourse.html' /}
+#{set title:'Home' /}
+<div class="container">   
+	<div class="row">	
+		#{leftMenu  course:course, isActive:'1' /}
+		<div class="span8">
+		    <div class="b-box">
+			<div class="b-box__header"><h3>Post an update</h3></div>
+			<div class="b-box__content">
+			
+			#{list items:announcements, as:'a'}
+				<h2>${a.topic}</h2>
+				#{verbatim}
+					${a.text}
+				#{/verbatim}
+				<div class="pull-right">&{a.date}</div>
+				#{if course.user?.email == session.email}
+				<br/>				
+				<a data-toggle="modal" href="#myModal">Edit</a>
+				<!-- 
+				<a  href="javascript:deleteConf(${courseId},${a.id})">Delete</a>
+				 -->				
+				<a  href="@{MyOwnCourse.deleteCourseInfo(course.id,a.id)}">Delete</a>
+				#{/if}
+				<hr />
+			#{/list}
+			#{if course.user?.email == session.email}
+			<div id="myModal" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" style="display: none;">
+		          <div class="modal-header">
+		          	<a class="close" data-dismiss="modal">×</a>
+		            	<h3 id="myModalLabel">Edit information</h3>
+		          </div>
+				#{form @MyOwnCourse.addCourseInfo(a?.id)}
+					<div class="modal-body">                 	
+			           	<div class="control-group">
+					    	<label class="control-label" for="topic">Topic</label>
+					    	<div class="controls">
+					      		<input type="text" id="topic" name="topic" value="${a?.topic}" >
+					   		</div>
+					  	</div>
+					  	<div class="control-group">
+					    	<label class="control-label" for="topic">Text</label>
+					    	<div class="controls">
+					      		<textarea name="courseInfo" style="width: 500px;">${a?.text}</textarea>
+					   		</div>
+					  	</div>						  	
+						<input type="hidden" name="courseId" value="&{course.id}">            		                 						   				
+					</div>
+			        <div class="modal-footer">
+			           	<button class="btn" data-dismiss="modal">Close</button>
+			           	<button type="submit" class="btn btn-primary">Edit Information</button>
+					</div>	    	
+				#{/form}
+			</div> 
+			<script type="text/javascript" src="@{'/public/javascripts/nicEdit.js'}"></script>
+			<script type="text/javascript">
+				bkLib.onDomLoaded(function() { nicEditors.allTextAreas() });
+			</script>	
+			<h3>Add new information.</h3>
+			<form action="@{MyOwnCourse.addCourseInfo()}" class="form-horizontal">		
+		    	<div style="padding-bottom: 10px;">
+		    		<span for="topic">Topic:</span>
+		      		<input type="text" id="topic" name="topic" placeholder="Write topic of the information">
+		   		</div>
+				<textarea name="courseInfo" style="width: 100%;" ></textarea>			
+				<input type="hidden" name="courseId" value="&{course.id}"> 
+				<button type="submit" class="btn btn-primary">Add Information</button>							
+			</form>
+			#{/if}
+			</div>
+			</div>
+		</div>
+		<div class="span3">
+			<a href="@{MyOwnCourse.syllabus(course.id)}">Syllabus</a>		
+		</div>
+	</div>					
+</div>
+
+
+
+
+
+ <script type="text/javascript">    
+ function deleteConf(courseId,announcementId)
+ {
+	 console.log(courseId);	
+	 console.log(announcementId);
+	 
+	 var r=confirm("Do you realy want to delete?");
+	 if (r==true)
+	   {
+		// window.location="@{MyOwnCourse.deleteCourseInfo(courseId,announcementId)}";
+		 var postURL = #{jsAction @MyOwnCourse.deleteCourseInfo() /}
+		 $.post(postURL(), { courseId: courseId, announcementId: announcementId} );
+		 window.location="@{MyOwnCourse.courseInfo(course.id)}";
+	   }	
+ }
+    function strip(html)
+    {
+       var tmp = document.createElement("DIV");
+       tmp.innerHTML = html;
+       return tmp.textContent||tmp.innerText;
+    }
+	</script>

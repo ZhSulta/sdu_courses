@@ -1,0 +1,41 @@
+#{extends 'main.html' /}
+#{set title:'Home' /}
+    <style type="text/css">
+      .span4 {
+        padding-top: 20px;        
+      }
+    </style>	
+<div class="container">   
+	<div class="row">
+	#{if myCourses}
+		#{list items:myCourses, as:'i'}			
+		<div class="span4">
+			<div class="thumbnail">
+				<a href="@{MyOwnCourse.myOwnCourse(i.id)}"><img src="@{Application.coursePhoto(i.id)}" style="width: 370px; height: 160px;"></a>
+				<div class="caption">
+					#{if i.isActive}
+						Course is active
+					#{/if}
+					#{else}
+						Course is not active
+					#{/else}
+					<h3>&{i.name}</h3>
+					<p>
+					#{if i.smallDescription}
+						&{i.smallDescription}
+					#{/if}
+                  	#{else}
+                  		No Description
+                  	#{/else} 
+					</p>					
+				</div>
+			</div>
+		</div>
+		#{/list}
+	#{/if}	
+	#{else}
+		<h3>You haven't got any courses</h3>
+		<a href="@{MyOwnCourse.courseForm()}">Create your own course</a>
+	#{/else}
+	</div>					
+</div>

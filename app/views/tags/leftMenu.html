@@ -1,0 +1,172 @@
+<style type="text/css">
+.span4 {
+  padding-top: 20px;        
+}
+.b-notification-number-container_tab {
+z-index: 102;
+position: absolute;
+top: -8px;
+right: -4px;
+}
+.b-notification-number {
+position: relative;
+display: inline-block;
+overflow: visible;
+height: 14px;
+background: #e73b3f;
+text-shadow: none;
+}
+.b-notification-number__bg {
+position: relative;
+top: -3px;
+display: block;
+margin: 0 2px;
+height: 20px;
+background: url("/public/images/icon/_sprt_commons.png") no-repeat -20px -100px;
+}
+.b-notification-number {
+text-shadow: none;
+}
+.b-notification-number__nbr {
+display: block;
+padding: 0 2px;
+color: #fff;
+line-height: 20px;
+font-weight: bold;
+font-size: 12px;
+}
+.b-notification-number {
+text-shadow: none;
+}
+.b-notification-number__bgl {
+position: absolute;
+top: -3px;
+left: -4px;
+display: block;
+width: 8px;
+height: 20px;
+background: url("/public/images/icon/_sprt_commons.png") no-repeat 0 -100px;
+}
+.b-notification-number__bgr {
+position: absolute;
+top: -3px;
+right: -4px;
+display: block;
+width: 8px;
+height: 20px;
+background: url("/public/images/icon/_sprt_commons.png") no-repeat -80px -100px;
+}
+</style>
+<div class="span1">	    
+			<div class="b-menu">
+		    	<ul class="unstyled">
+	    			#{if _isActive=='1'}
+			    		<li class="active">
+			    	#{/if}
+			    	#{else}
+			    		<li>
+			    	#{/else}
+	                	<a class="b-menu-element" href="@{MyOwnCourse.courseInfo(_course?.id)}" title="">
+	                		<center>
+	                			<div class="b-menu-element__icon b-menu-element__icon-News"></div>
+	                			<small>News</small>
+	                		</center>
+						</a>
+	                </li>
+	                #{if _course.isTimeTable}
+	                	#{if _isActive=='2'}
+				    		<li class="active">
+				    	#{/if}
+				    	#{else}
+				    		<li>
+				    	#{/else}
+		                	<a class="b-menu-element" href="@{MyOwnCourse.calendar(_course?.id)}" title="">
+		                		<center>
+		                			<div class="b-menu-element__icon b-menu-element__icon-Timetable"></div>
+		                			<small>Timetable</small>
+		                		</center>
+							</a>
+		                </li>
+	                #{/if}
+					
+	                #{if _course.isLessons}
+	                	#{if _isActive=='3'}
+				    		<li class="active">
+				    	#{/if}
+				    	#{else}
+				    		<li>
+				    	#{/else}
+		                	<a class="b-menu-element" href="@{MyOwnCourse.lesson(_course?.id)}" title="">
+		                		<center>
+		                			<div class="b-menu-element__icon b-menu-element__icon-Lessons"></div>
+		                			<small>Lessons</small>
+		                		</center>
+							</a>
+		                </li>
+	                #{/if}
+	    	    	#{if _course.isAssignments}
+		    	    	#{if _isActive=='4'}
+				    		<li class="active">
+				    	#{/if}
+				    	#{else}
+				    		<li>
+				    	#{/else}
+		                	<a class="b-menu-element" href="@{MyOwnCourse.assignments(_course?.id)}" title="">
+		                		<center>
+		                			<div class="b-menu-element__icon b-menu-element__icon-Assignments"></div>
+		                			<small>Assignments</small>
+		                		</center>
+							</a>
+		                </li>
+	    	    	#{/if}
+	    	    	
+	    	    	#{if _course.isDiscussions}
+	    	    		#{if _isActive=='5'}
+				    		<li class="active">
+				    	#{/if}
+				    	#{else}
+				    		<li>
+				    	#{/else}
+			                	<a class="b-menu-element" href="@{MyOwnCourse.discussion(_course?.id)}" title="">
+			                		<center>
+			                			<div class="b-menu-element__icon b-menu-element__icon-Discussions"></div>
+			                			<small>Discussions</small>
+			                		</center>
+			                		<!-- 
+			                		<span class="b-notification-number-container_tab"><span class="b-notification-number"><span class="b-notification-number__bg"><span class="b-notification-number__nbr">1</span></span><span class="b-notification-number__bgl"></span><span class="b-notification-number__bgr"></span></span></span>	                	
+									 -->
+								</a>
+	                		</li>
+	    	    	#{/if}
+	    	    	
+	    	    	#{if _course?.user?.email == session.email}
+					#{if _isActive=='6'}
+			    		<li class="active">
+			    	#{/if}
+			    	#{else}
+			    		<li>
+			    	#{/else}
+	                	<a class="b-menu-element" href="@{MyOwnCourse.progress(_course?.id)}" title="">
+	                		<center>
+	                			<div class="b-menu-element__icon b-menu-element__icon-Reports"></div>
+	                			<small>Reports</small>
+	                		</center>
+						</a>
+	                </li>
+	                	#{if _isActive=='7'}
+				    		<li class="active">
+				    	#{/if}
+				    	#{else}
+				    		<li>
+				    	#{/else}
+		                	<a class="b-menu-element" href="@{MyOwnCourse.courseSettings(_course?.id)}" title="">
+		                		<center>
+		                			<div class="b-menu-element__icon b-menu-element__icon-Settings"></div>
+		                			<small>Settings</small>
+		                		</center>
+							</a>
+		                </li>
+		            #{/if}
+				</ul>
+	        </div>
+		</div>

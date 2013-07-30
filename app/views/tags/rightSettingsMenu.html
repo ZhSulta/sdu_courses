@@ -1,0 +1,25 @@
+<div class="span3">
+	<div class="b-box">
+   		<div class="b-box__header">
+       		<h3>Settings</h3>
+   		</div>
+	    <ul class="unstyled">
+	    	#{if _isActive=='1'}
+	    		<li class="b-box__link-element  current ">
+	        #{/if}
+	    	#{else}
+	    		<li class="b-box__link-element">
+	    	#{/else}
+	            <a href="@{MyOwnCourse.courseSettings(_course.id)}" class="b-box__link-element">Basic Details</a>
+	        </li>
+	        #{if _isActive=='2'}
+	    		<li class="b-box__link-element  current ">
+	        #{/if}
+	    	#{else}
+	    		<li class="b-box__link-element">
+	    	#{/else}
+	    	    <a href="@{MyOwnCourse.courseTabs(_course.id)}" class="b-box__link-element">Course Sections</a>
+	        </li>
+	    </ul>
+	</div>
+</div>

@@ -1,0 +1,177 @@
+#{extends 'mainOwnCourse.html' /}
+#{set title:'Home' /}
+    <style type="text/css">
+      .span4 {
+        padding-top: 20px;        
+      }
+    </style>	
+    <link href="@{'/public/stylesheets/datepicker.css'}" rel="stylesheet" />
+<div class="container">   
+	<div class="row">
+	#{leftMenu  course:course, isActive:'4' /}
+	<div class="span8 bs-docs-sidebar">
+		<div class="b-box">
+			<div class="b-box__header"><h3>Assignments/Homeworks</h3></div>
+			<div class="b-box__content">
+				<div class="tabbable"> <!-- Only required for left/right tabs -->
+				  <ul class="nav nav-tabs">
+				    <li class="active">
+				    	<a href="#tab1" data-toggle="tab">Assignments</a>
+				    </li>
+				    <li>
+				    	<a href="#tab2" data-toggle="tab">Homeworks</a>
+				    </li>
+				  </ul>
+				  <div class="tab-content">
+				    <div class="tab-pane active" id="tab1">
+						<div class="accordion" id="my_accordion">
+				        	#{list items:topics, as:'t'}
+					            <div class="accordion-group">
+							        <div class="accordion-heading">
+							            <h4>
+							            	<a class="accordion-toggle" data-parent="#my_accordion" data-toggle="collapse" href="#collapse1_${t}">${t}<span class="pull-right">+</span></a>
+							            </h4>
+							        </div>
+					                <div class="accordion-body collapse" id="collapse1_${t}">
+							            <div class="accordion-inner">
+								            #{list items:assignments, as:'a'}
+								                #{if a.topic.equals(t)}							
+									                <li>
+											          	<a href="@{MyOwnCourse.assignment(course.id,a.id)}">${a.title}</a>
+										          	</li>
+								          		#{/if}
+								        	#{/list} 
+							            </div>
+							        </div>
+								</div>
+							#{/list}
+						</div>
+					</div>
+				    <div class="tab-pane" id="tab2">
+				    	<div class="accordion" id="homework_accordion">
+				        	#{list items:homeworkTopics, as:'t'}
+					            <div class="accordion-group">
+							        <div class="accordion-heading">
+							            <h4>
+							            	<a class="accordion-toggle" data-parent="#homework_accordion" data-toggle="collapse" href="#collapse_${t}">${t}<span class="pull-right">+</span></a>
+							            </h4>
+							        </div>
+					                <div class="accordion-body collapse" id="collapse_${t}">
+							            <div class="accordion-inner">
+								            #{list items:homeworks, as:'a'}
+								                #{if a.topic.equals(t)}							
+									                <li>
+											          	<a href="@{MyOwnCourse.homework(course.id,a.id)}">${a.title}</a>
+										          	</li>
+								          		#{/if}
+								        	#{/list} 
+							            </div>
+							        </div>
+								</div>
+							#{/list}
+						</div>
+				    </div>
+				  </div>
+				</div>
+		    </div>
+			</div>
+      </div>
+      #{if course.user.email == session.email}	
+      <div class="span3">
+        <a class="btn btn-primary" data-toggle="modal" href="#myModal" type="button">Add Assignment</a>
+        <a class="btn btn-primary" href="@{MyOwnCourse.createHomework(course.id)}" type="button">Add Homework</a>                
+      </div>
+          <div id="myModal" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" style="display: none;">
+            <div class="modal-header">
+            	<a class="close" data-dismiss="modal">×</a>
+              <h3 id="myModalLabel">New Assignment</h3>
+            </div>
+             <form action="@{MyOwnCourse.addAssignment()}" class="form-horizontal">
+	         	<div class="modal-body">                 	
+	            	<div class="control-group">
+				    	<label class="control-label" for="topic">Topic</label>
+				    	<div class="controls">
+				      		<input type="text" id="topic" name="topic" placeholder="Write same topic or new topic">
+				   		</div>
+				  	</div>
+				  	<div class="control-group">
+				    	<label class="control-label" for="title">Title</label>
+				    	<div class="controls">
+				      		<input type="text" id="title" name="title" placeholder="Write assingment title">
+				   		</div>
+				  	</div>
+               		<div class="control-group">
+				    	<label class="control-label" for="attempts">Attempts</label>
+				    	<div class="controls">
+				      		<input type="text" id="attempts" name="attempts" placeholder="Number of attempts">
+				   		</div>
+				  	</div>
+				  	<div class="control-group">
+			            <label class="control-label" for="dp3">Due date</label>
+			            <div class="controls">
+			              <div class="input-append date" id="dp3" data-date="%{out.print(new Date());}%" data-date-format="dd-mm-yyyy">
+							<input class="span2" size="16" value="${due_date}" type="text" name="due_date" readonly>
+							<span class="add-on"><i class="icon-calendar"></i></span>
+						  </div>		              
+			            </div>
+			        </div>
+				  	<input type="hidden" name="courseId" value="&{course.id}">            		                 						   				
+				</div>
+	            <div class="modal-footer">
+	            	<button class="btn" data-dismiss="modal">Close</button>
+	            	<button type="submit" class="btn btn-primary">Add Assignment</button>
+	            </div>	    	
+            </form>
+        </div>      	   
+      	#{/if}      
+	</div>					
+</div>
+
+#{set 'moreScripts'}
+<script src="@{'/public/javascripts/bootstrap-datepicker.js'}"></script>
+<script>
+jQuery(document).ready(function(){
+    console.log('ready');
+	/*
+    document.getElementById('file').onchange = function () {
+    	var fullPath = this.value;
+	    if (fullPath) {
+			var startIndex = (fullPath.indexOf('\\') >= 0 ? fullPath.lastIndexOf('\\') : fullPath.lastIndexOf('/'));
+	    	var filename = fullPath.substring(startIndex);
+	    	if (filename.indexOf('\\') === 0 || filename.indexOf('/') === 0) {
+	    		filename = filename.substring(1);
+	    	}
+	    	  jQuery("#files").append("<p>"+ filename +"</p>");
+	     }
+	  };
+	  */
+		$(".accordion-body").on("show",function(event){
+	        $('span', $(this).prev()).text('-');
+		});
+		$(".accordion-body").on("hide",function(event){
+		        $('span', $(this).prev()).text('+');
+		});
+		
+		window.prettyPrint && prettyPrint();
+		var nowTemp = new Date();
+		var now = new Date(nowTemp.getFullYear(), nowTemp.getMonth(), nowTemp.getDate(), 0, 0, 0, 0);
+		
+		var checkin = $('#dp3').datepicker({
+			  onRender: function(date) {
+			    return date.valueOf() < now.valueOf() ? 'disabled' : '';
+			  }
+			}).on('changeDate', function(ev) {
+				checkin.hide();
+		}).data('datepicker');
+		var checkout = $('#dp4').datepicker({
+			  onRender: function(date) {
+			    return date.valueOf() < now.valueOf() ? 'disabled' : '';
+			  }
+			}).on('changeDate', function(ev) {
+				checkout.hide();
+		}).data('datepicker');
+			   	
+});
+
+    </script>
+#{/set}

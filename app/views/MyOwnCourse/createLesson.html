@@ -1,0 +1,53 @@
+#{extends 'mainOwnCourse.html' /}
+#{set title:'Home' /}
+
+    <style type="text/css">
+      .span4 {
+        padding-top: 20px;        
+      }
+    </style>	
+   
+<div class="container">   
+	<div class="row">	
+		#{leftMenu  course:course, isActive:'1' /}
+		<div class="span8">	
+		<div class="b-box">
+			<div class="b-box__header"><h3>New Lesson</h3></div>
+			<div class="b-box__content">
+				<form action="@{MyOwnCourse.addLesson()}" method="post" class="form-horizontal" enctype="multipart/form-data">
+				  	<div class="modal-body">                 	
+			         	<div class="control-group">
+					    	<label class="control-label" for="topic">Topic</label>
+					    	<div class="controls">
+					      		<input type="text" id="topic" name="topic" placeholder="Write same topic or new topic">
+					   		</div>
+					  	</div>
+					  	<div class="control-group">
+					    	<label class="control-label" for="inputName">Name</label>
+					    	<div class="controls">
+					      		<input type="text" id="inputName" name="name" placeholder="Write name of video">
+					   		</div>
+					  	</div>
+			       		<div class="control-group">
+						      <label class="control-label" for="file">File</label>
+						      <div class="controls">		
+						      	<input type="file" id="file" name="file" />					      	    
+						      </div>
+						</div>
+					  	<input type="hidden" name="courseId" value="&{course.id}">            		                 						   				
+					</div>
+					<button type="submit" class="btn btn-primary">Add Lesson</button>
+			    </form>
+			  </div>
+			</div>
+		</div>
+	</div>					
+</div> 
+<script type="text/javascript">    
+    function strip(html)
+    {
+       var tmp = document.createElement("DIV");
+       tmp.innerHTML = html;
+       return tmp.textContent||tmp.innerText;
+    }
+	</script>

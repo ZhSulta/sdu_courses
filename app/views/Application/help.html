@@ -1,0 +1,98 @@
+#{extends 'main.html' /}
+#{set title:'Home' /}
+    <style type="text/css">
+      .span4 {
+        padding-top: 20px;        
+      }
+    </style>	
+<div class="container">   
+	<div class="row">	
+	#{list items:courses, as:'i'}
+		#{if i.isActive}	
+			<div class="span4">
+				<div class="thumbnail">
+					<a href="@{MyCourse.checkCourse(i.id)}"><img src="amelia/thumbnail.png" alt="Amelia"></a>
+					<div class="caption">
+							#{list items:myCourses, as:'j'}
+								#{if i.id == j.id}
+									My course
+								#{/if}                  	
+							#{/list}
+							<h3>&{i.name}</h3>
+							<p>
+							#{if i.smallDescription}
+								&{i.smallDescription}
+							#{/if}
+		                  	#{else}
+		                  		No Description
+		                  	#{/else}
+		     			</p>					
+					</div>
+				</div>
+			</div>
+			#{/if}
+		#{/list}
+	</div>
+	
+	
+	
+	
+	
+	
+	
+	<!-- 
+	<div class="row-fluid">	
+	<ul class="thumbnails">		
+		<section class="highlighted-courses"> 
+			<section class="courses">		
+			#{list items:courses, as:'i'}						
+	 			<li class="span4">	 	 													
+						<article class="course"> 														
+							<div class="inner-wrapper">
+								<h:form>	
+					 				<h:commandLink action="courseBean.aboutCourse}" value="&{i.name}" >		
+					 					<f:param name="course_id" value="i.course_id}" />	
+					 					<header class="course-preview">					 					
+					 					<div class="info-link">➔</div> </header> 	    					 
+					 				</h:commandLink>   													 				 
+								</h:form> 		 
+								
+								<a href="#"> 
+									<hea	der class="course-preview"> 
+									<hgroup> <h2> i.name</h2> </hgroup>
+									<div class="info-link">➔</div> </header> 
+								</a>
+								<section class="info">
+									<a href="#"> 
+										<div class="cover-image"> 
+											<img src="./static/img/course_image.1b653ea8b15b.jpg" /> 
+										</div> 
+										<div class="desc"> 
+											<p>
+											#{if i.smallDescription}
+												&{i.smallDescription}
+											#{/if}
+						                  	#{else}
+						                  		<h3>No Description</h3>
+						                  	#{/else} 
+											</p> 
+										</div> 
+									</a>
+									<div class="bottom">												
+										<a href="#" class="university">i.university</a> 
+										<span class="start-date">i.startDate</span> 
+									</div> 
+								</section>
+							</div> 
+							<div class="meta-info"> 
+								<p class="university">i.university</p> 
+							</div>  
+						</article> 						
+					</li>				
+			#{/list}
+			</section>
+		</section>
+		</ul>
+	</div>  
+-->		 							
+</div>

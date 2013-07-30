@@ -2,3 +2,14 @@
 
 require:
     - play
+#    - play -> paginate head
+
+
+
+
+
+   #- play -> cloudbees 0.2.2    
+    #- play -> gravatar 1.0.2
+    #- play -> openshift 0.2.0-RC1
+
+    #- play -> securesocial 0.2.5

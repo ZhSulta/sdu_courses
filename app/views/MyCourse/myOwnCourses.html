@@ -1,0 +1,29 @@
+#{extends 'main.html' /}
+#{set title:'Home' /}
+    <style type="text/css">
+      .span4 {
+        padding-top: 20px;        
+      }
+    </style>	
+<div class="container">   
+	<div class="row">	
+	#{list items:myCourses, as:'i'}	
+		<div class="span4">
+			<div class="thumbnail">
+				<a href="@{MyCourse.myOwnCourse(i.id)}"><img src="@{MyCourse.userPhoto(i.id)}"></a>
+				<div class="caption">
+					<h3>&{i.name}</h3>
+					<p>
+					#{if i.smallDescription}
+						&{i.smallDescription}
+					#{/if}
+                  	#{else}
+                  		No Description
+                  	#{/else} 
+					</p>					
+				</div>
+			</div>
+		</div>
+		#{/list}
+	</div>					
+</div>

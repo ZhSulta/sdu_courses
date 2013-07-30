@@ -1,3 +1,11 @@
 # You can specialize this file for each language.
 # For example, for French create a messages.fr file
 #
+
+
+# Pagination strings
+pagination.pageNumbers=<strong>Found: %d &mdash; Page: %d of %d</strong>
+pagination.next=Next
+pagination.previous=Prev
+pagination.first=First
+pagination.last=Last

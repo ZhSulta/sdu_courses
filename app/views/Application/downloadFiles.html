@@ -1,0 +1,35 @@
+#{extends 'main.html' /}
+#{set title:'Home' /}
+    <style type="text/css">
+      .span4 {
+        padding-top: 20px;        
+      }
+    </style>	
+<div class="container">   
+	<div class="row">
+			<h3>avatars</h3>
+			#{list items:users, as:'i'}			
+				<span><a href="@{MyOwnCourse.downloadAdminAvatar(i.id)}">${i.email}</a></span>
+			#{/list}	
+			<h3>course photos</h3>
+			#{list items:courses, as:'i'}			
+				<span><a href="@{MyOwnCourse.downloadAdminPhoto(i.id)}">${i.name}</a></span>
+			#{/list}	
+			<h3>homeworks</h3>
+			#{list items:homeworks, as:'f'}
+				#{list items:f.files, as:'f'}
+				<p>
+					<span><a href="@{MyOwnCourse.downloadAdminFile(f.id)}">${f.fileName}</a></span>
+				</p>
+				#{/list}	
+			#{/list}
+			<h3>lessons</h3>
+			#{list items:lessons, as:'f'}
+				#{list items:f.files, as:'f'}
+				<p>
+					<span><a href="@{MyOwnCourse.downloadAdminFile(f.id)}">${f.fileName}</a></span>
+				</p>
+				#{/list}	
+			#{/list}
+	</div>						
+</div>

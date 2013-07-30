@@ -1,0 +1,149 @@
+#{extends 'mainOwnCourse.html' /}
+#{set title:'Home' /}
+
+		
+    <style type="text/css">
+.short-summary {
+border-top: 1px dotted #ccccce;
+position: relative;
+overflow: hidden;
+padding: .5em;
+}
+.short-summary .counts {
+margin-right: 0;
+margin-top: 4px;
+padding-right: 2px;
+position: absolute;
+top: .5em;
+left: 0;
+bottom: 0;
+width: 17em;
+}
+.item-count {
+font-size: 20px;
+font-weight: bold;
+}
+.short-summary .votes, .short-summary .status, .short-summary .views {
+font-size: 12px;
+height: 42px;
+margin: 0 4px 0 0;
+padding: 8px 2px 0;
+text-align: center;
+width: 52px;
+float: left;
+}
+.short-summary .question-summary-wrapper {
+margin-left: 17em;
+min-height: 0;
+}
+.short-summary .userinfo {
+color: #555753;
+float: right;
+margin-top: -10px;
+}
+.tags {
+display: block;
+float: left;
+line-height: 250%;
+margin-top: 12px;
+}
+.short-summary:first-of-type {
+border-top: 0;
+}
+
+      .span4 {
+        padding-top: 20px;        
+      }
+    </style>	
+    
+<div class="container">   
+	<div class="row">
+	#{leftMenu  course:course, isActive:'5' /}		
+		  <div class="span8">
+		  <div class="b-box">
+		  <div class="b-box__header"><h3>Questions</h3></div>
+		  <div class="b-box__content">
+			#{list items:aQuestions, as:'q'} 
+				<div class="short-summary">
+				    <div class="counts">
+				        <div class="votes">
+				            <div class="item-count">${q.votes_number}</div>
+				            <div>vote</div>
+				        </div >
+				        <div title="this question has an accepted answer" class="status answered-accepted answered">
+				            <div class="item-count">${q.answers_number}</div>
+				            <div>answers</div>
+				        </div>
+				        <div class="views">
+				             <div class="item-count">${q.views_number}</div>
+				             <div>views</div>
+				        </div>
+				    </div>
+				
+				    <div class="question-summary-wrapper">
+				        <h4>
+				        	<a title="${q.text.length() > 200 ? q.text[0..200] + '…' : q.text}" href="@{MyOwnCourse.question(course.id,q.id)}" >${q.title}</a>
+				        </h4>
+				        <div class="userinfo">
+				            <img src="@{Application.userPhoto(q.user.id)}" width="32" height="32">				      								    
+				            <span class="relativetime" title="${q.publish_date.format('dd MMM HH:mm:ss')}">${q.publish_date.format('dd MMM hh:mm:ss')}</span>
+				            <a href="#">
+				            	#{if q.user.username && q.user.username.length()>0}
+				            		${q.user.username}
+				            	#{/if}
+				            	#{else}
+				            		${q.user.email}
+				            	#{/else}		            	
+				            </a>
+				            <br/>
+				            #{if session.email.equals(q.user.email)}						            
+				            	<a href="@{MyOwnCourse.deleteQuestion(course.id,q.id)}">Delete</a>
+				           	#{/if}		
+				        </div>				        
+				    </div>
+				</div>			
+			#{/list}
+			#{if paginationInfo.getNumPages() > 1}
+				#{pagination paginationInfo, colspan:'1', courseId:course.id/}
+			#{/if}
+			</div>
+			</div>			 
+		</div>  
+		<div class="span3">
+		
+			<a data-toggle="modal" href="#myModal" class="btn btn-primary pull-right">Ask Question</a>	  	
+		  	<div id="myModal" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" style="display: none;">
+	        	<div class="modal-header">
+	          		<a class="close" data-dismiss="modal">×</a>
+	            	<h3 id="myModalLabel">Edit information</h3>
+	        	</div>
+	        	<script type="text/javascript" src="@{'/public/javascripts/nicEdit.js'}"></script>
+				<script type="text/javascript">
+					bkLib.onDomLoaded(function() { nicEditors.allTextAreas() });
+				</script>	
+				#{form @MyOwnCourse.addQuestion()}
+					<div class="modal-body">                 	
+			           	<div class="control-group">
+					    	<div class="controls">
+					    		<label class="control-label" for="title">Title: 
+					      			<input type="text" id="title" name=title >
+					      		</label>
+					   		</div>
+					  	</div>
+					  	<div class="control-group">
+					    	<label class="control-label" for="text">Text</label>
+					    	<div class="controls">
+					      		<textarea name="text" style="width: 500px; height: 50px;"></textarea>
+					   		</div>
+					  	</div>						  	
+						<input type="hidden" name="courseId" value="${course.id}">            		                 						   				
+					</div>
+			        	<div class="modal-footer">
+			           	<button class="btn" data-dismiss="modal">Close</button>
+			           	<button type="submit" class="btn btn-primary">Ask Your Question</button>
+					</div>	    	
+				#{/form}	
+			</div>	  	
+		</div>
+	</div>
+</div>					

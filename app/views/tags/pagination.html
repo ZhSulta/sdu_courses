@@ -1,0 +1,67 @@
+*{
+View Tag. Put this in your tags folder.
+ 
+Optional arguments:
+- first:    [<<] label for the "first" link
+- last:     [>>] label for the "last" link
+- previous: [<]  label for the "previous" link
+- next:     [>]  label for the "next" link
+- radius:   [4]  how many pages to display left/right of the current page
+- clazz:    []   additional css class for outer div, the "pagination" class is always added.
+- colspan:  [3]  number of table rows to span.
+}*
+%{
+def page = {
+		args = new java.util.HashMap<String, Object>()
+		args.put('page', it)
+		args.put('courseId', _courseId)
+		//args.put('zip', params.get( "zip" ) )
+		_arg.params.each{ p -> args.put(p, params.get(p)) }
+ 
+		play.mvc.Router.getFullUrl(_arg.action, args)
+	}
+ 
+pageCount    = _arg.getNumPages();
+currentPage  = _arg.getPage();
+first        = (_first == null || _first == '') ? '&laquo; ' + play.i18n.Messages.get("pagination.first") : _first;
+previous     = (_previous == null || _previous == '') ? '&lsaquo; ' + play.i18n.Messages.get("pagination.previous") : _previous;
+next         = (_next == null || _next == '') ? play.i18n.Messages.get("pagination.next") + ' &rsaquo;' : _next;
+last         = (_last == null || _last == '') ? play.i18n.Messages.get("pagination.last") + ' &raquo;' : _last;
+radius		 = (_radius == null )? 3 : _radius;
+startCount   = Math.max(1, currentPage - radius);
+endCount     = Math.min(pageCount, currentPage + radius);
+}%
+<p>
+    &{'pagination.pageNumbers', _arg.numItems, _arg.getPage(), pageCount}
+</p>    
+<div class="pagination">
+   <ul>
+    %{
+	if (_arg.page > 1) {
+		out.println('<li><a class="first button" rel="1" href="' + page(1) +'">' + first + '</a></li>');
+		out.println('<li><a class="previous button" rel="' + (_arg.page - 1) + '" href="' + page(_arg.page - 1) + '">' + previous + '</a></li>');
+	}
+ 
+	if (startCount > 1) {
+	    out.println('<li class="hellip">&nbsp;&hellip;&nbsp;</li>');
+    }
+ 
+	for (int i = startCount; i <= endCount; i++) {
+		if (i != _arg.getPage()) {
+			out.println('<li><a class="button" rel="' + i + '" href="' + page(i) + '" style="FONT-SIZE: x-small;">' + i + '</a></li>' );
+		} else {
+			out.println('<li><span class="current button gray">' + i + '</span></li>');
+		}
+	}
+ 
+	if ((currentPage + radius) < pageCount) {
+	    out.println('<li class="hellip">&nbsp;&hellip;&nbsp;</li>');
+	}
+ 
+	if (_arg.page != pageCount) {
+	    out.println('<li><a class="next button" rel="' + i + '" href="' + page(_arg.getPage() + 1) + '">' + next + '</a></li>');
+		out.println('<li><a class="last button" rel="' + i + '" href="' + page(pageCount) + '">' + last +'</a></li>');
+	}
+    }%
+        </ul>
+    </div>

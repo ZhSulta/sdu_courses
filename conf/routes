@@ -4,12 +4,27 @@
 
 # Home page
 GET     /                                       Application.index
+#GET     /login                                 Application.login
+GET     /signup                                 Application.signup
+GET     /contact                                Application.contact
+GET     /about                                  Application.about
+
+# Import CRUD routes
+GET      /admin/?              					Admin.index
+*      /admin              						module:crud
+
+# Import Secure routes
+*       /                                     module:secure
 
 # Ignore favicon requests
 GET     /favicon.ico                            404
 
+
 # Map static resources from the /app/public folder to the /public path
 GET     /public/                                staticDir:public
+GET     /data/attachments/                      staticDir:data/attachments
 
+*		/listNewQuestions.json					MyOwnCourse.listNewQuestions
 # Catch all
 *       /{controller}/{action}                  {controller}.{action}
+

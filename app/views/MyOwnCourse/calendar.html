@@ -1,0 +1,67 @@
+#{extends 'mainOwnCourse.html' /}
+#{set title:'Home' /}
+ #{set 'moreScripts' }
+ <link href="@{'/public/calendar/fullcalendar/fullcalendar.css'}" rel='stylesheet' />
+<link href="@{'/public/calendar/fullcalendar/fullcalendar.print.css'}" rel='stylesheet' media='print' />
+<script src="@{'/public/calendar/jquery/jquery-1.9.1.min.js'}"></script>
+<script src="@{'/public/calendar/jquery/jquery-ui-1.10.2.custom.min.js'}"></script>
+<script src="@{'/public/calendar/fullcalendar/fullcalendar.js'}"></script>
+<script>
+var nameArray = new Array();
+var idArray = new Array();
+var dateArray = new Array();
+var index=0;
+var eventsArray = [];
+
+
+
+#{list items:datas, as:'d'}
+	nameArray[index] = "${d.name}";
+	idArray[index] = "${d.id}";
+	dateArray[index] = "${d.date}".substring(0,10);
+	var x = {
+				title: nameArray[index],
+				start: new Date(dateArray[index])
+			}
+	eventsArray.push(x);
+	index++;
+#{/list}
+	
+		
+		var calendar1 = $('#calendar').fullCalendar({
+			header: {
+				left: 'prev,next today',
+				center: 'title',
+				right: ''
+			},
+			//selectable: true,
+			selectHelper: true,
+			select: function(start, end, allDay) {
+				var title = prompt('Event Title:');
+				if (title) {
+					calendar.fullCalendar('renderEvent',
+						{
+							title: title,
+							start: start,
+							end: end,
+							allDay: allDay
+						},
+						true // make the event "stick"
+					);
+				}
+				calendar.fullCalendar('unselect');
+			},
+			//editable: true,
+			events: eventsArray
+		});
+</script>
+ #{/set}   
+<div class="container">   
+	<div class="row">	
+		#{leftMenu  course:course, isActive:'2' /}
+		 <div class="span8">
+			<div id='calendar'></div>
+		</div>
+	</div>
+</div>
+

@@ -1,0 +1,93 @@
+#{extends 'mainOwnCourse.html' /}
+#{set title:'Home' /}
+
+    <style type="text/css">
+      .span4 {
+        padding-top: 20px;        
+      }
+    </style>	
+       <link href="@{'/public/stylesheets/datepicker.css'}" rel="stylesheet" />
+<div class="container">   
+	<div class="row">	
+		#{leftMenu  course:course, isActive:'1' /}
+		<div class="span8">	
+		<div class="b-box">
+			<div class="b-box__header"><h3>Add auto Checker</h3></div>
+			<div class="b-box__content">
+			<form action="@{MyOwnCourse.addChecker()}" method="post" class="form-horizontal" enctype="multipart/form-data">
+			 	<div class="modal-body">                 	
+	            	
+				  	<div class="control-group">
+				    	<label class="control-label" for="input">Input</label>
+				    	<div class="controls">
+				      		<input type="text" id="input" name="input" placeholder="Write input">
+				   		</div>
+				  	</div>
+               		<div class="control-group">
+				    	<label class="control-label" for="attempts">Output</label>
+				    	<div class="controls">
+				      		<input type="text" id="output" name="output"  placeholder="Write output">
+				   		</div>
+				  	</div>				  	
+				  	<input type="hidden" name="courseId" value="${course.id}">
+				  	<input type="hidden" name="homeworkId" value="${homework.id}"> 				  	
+				</div>
+				<div class="modal-footer">
+	            	<button class="btn" data-dismiss="modal">Close</button>
+	            	<button type="submit" class="btn btn-primary">Add checker</button>
+	            </div>	    	
+        	    </form>
+        	  </div>
+			</div>
+		</div>
+	</div>					
+</div> 
+
+#{set 'moreScripts'}
+<script src="@{'/public/javascripts/bootstrap-datepicker.js'}"></script>
+<script>
+jQuery(document).ready(function(){
+    console.log('ready');
+    document.getElementById('file').onchange = function () {
+    	var fullPath = this.value;
+	    if (fullPath) {
+			var startIndex = (fullPath.indexOf('\\') >= 0 ? fullPath.lastIndexOf('\\') : fullPath.lastIndexOf('/'));
+	    	var filename = fullPath.substring(startIndex);
+	    	if (filename.indexOf('\\') === 0 || filename.indexOf('/') === 0) {
+	    		filename = filename.substring(1);
+	    	}
+	    	  jQuery("#files").append("<p>"+ filename +"</p>");
+	     }
+	  };
+		
+		window.prettyPrint && prettyPrint();
+		var nowTemp = new Date();
+		var now = new Date(nowTemp.getFullYear(), nowTemp.getMonth(), nowTemp.getDate(), 0, 0, 0, 0);
+		
+		var checkin = $('#dp3').datepicker({
+			  onRender: function(date) {
+			    return date.valueOf() < now.valueOf() ? 'disabled' : '';
+			  }
+			}).on('changeDate', function(ev) {
+				checkin.hide();
+		}).data('datepicker');
+		var checkout = $('#dp4').datepicker({
+			  onRender: function(date) {
+			    return date.valueOf() < now.valueOf() ? 'disabled' : '';
+			  }
+			}).on('changeDate', function(ev) {
+				checkout.hide();
+		}).data('datepicker');
+			   	
+});
+
+    </script>
+#{/set}
+<script type="text/javascript">    
+    function strip(html)
+    {
+       var tmp = document.createElement("DIV");
+       tmp.innerHTML = html;
+       return tmp.textContent||tmp.innerText;
+    }
+	</script>

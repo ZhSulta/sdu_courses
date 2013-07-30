@@ -1,0 +1,98 @@
+#{extends 'mainOwnCourse.html' /}
+#{set title:'Home' /}
+#{set 'moreStyles'}
+<style type="text/css">
+.span4 {
+  padding-top: 20px;        
+}
+</style>	
+#{/set}
+<div class="container">   
+	<div class="row">	
+		#{leftMenu  course:course, isActive:'7' /}
+		<div class="span8">
+		    <div class="b-box">
+			<div class="b-box__header"><h3>Basic Details</h3></div>
+			<div class="b-box__content">
+			#{form @MyOwnCourse.editCourse(course?.id), enctype:'multipart/form-data', class:'form-horizontal'}
+				#{if flash.error}
+					<h6 class="error">
+						&{flash.error}
+					</h6>
+				#{/if}
+				#{if flash.success}
+					<h6 class="success">
+						&{flash.success}
+					</h6>
+				#{/if}
+			
+				<fieldset>
+				    <div class="control-group">
+					      <label class="control-label" for="input01">Course name</label>
+					      <div class="controls">
+					      	<input type="text" class="input-xlarge" name="courseName" rel="popover" 
+					      	data-content="Enter your first and last name." data-original-title="Full Name" 
+					      	value="${course?.name}"/>	        
+					      </div>
+					</div>
+				    <div class="control-group">
+					      <label class="control-label" for="input01">Title</label>
+					      <div class="controls">
+					      	<input type="text" class="input-xlarge" name="smallDescription" rel="popover" 
+					      	data-content="Enter your first and last name." data-original-title="Full Name"
+					      	value="${course?.smallDescription}">	        
+					      </div>
+					</div>
+				    <div class="control-group">
+					      <label class="control-label" for="input01">Description</label>
+					      <div class="controls">
+					      	<input type="text" class="input-xlarge" name="description" rel="popover" 
+					      	data-content="Enter your first and last name." data-original-title="Full Name"
+					      	value="${course?.description}">	        
+					      </div>
+					</div>
+				    <div class="control-group">
+					      <label class="control-label" for="input01">University</label>
+					      <div class="controls">
+					      	<input type="text" class="input-xlarge" name="university" rel="popover" 
+					      	data-content="Enter your first and last name." data-original-title="Full Name"
+					      	value="${course?.university}">	        
+					      </div>
+					</div>
+					<div class="control-group">
+					      <label class="control-label" for="input01">Duration</label>
+					      <div class="controls">
+					      	<input type="text" class="input-xlarge" name="duration" rel="popover" 
+					      	data-content="Enter your first and last name." data-original-title="Full Name"
+					      	value="${course?.duration}">	        
+					      </div>
+					</div>
+					<div class="control-group">
+					      <label class="control-label" for="input01">Url of introduction video</label>
+					      <div class="controls">
+					      	<input type="text" class="input-xlarge" name="videoUrl" rel="popover" 
+					      	data-content="Enter your first and last name." data-original-title="Full Name"
+					      	value="${course?.videoUrl}">	        
+					      </div>
+					</div>
+					<div class="control-group">
+					      <label class="control-label" for="input01">Photo</label>
+					      <div class="controls">
+					      	<input type="file" id="photo" name="photo" />		      		       
+					      </div>
+					</div>
+					
+					<div class="control-group">
+						<label class="control-label" for="input01"></label>
+					      <div class="controls">
+					       <button type="submit" class="btn btn-success" rel="tooltip" title="first tooltip">Edit course</button>		       
+					      </div>
+					</div>
+				</fieldset>
+			#{/form}
+			</div>
+			</div>
+		</div>
+		#{rightSettingsMenu  course:course, isActive:'3' /}
+	</div>
+</div>

@@ -1,0 +1,50 @@
+#{extends 'mainOwnCourse.html' /}
+#{set title:'Home' /}
+
+    <style type="text/css">
+      .span4 {
+        padding-top: 20px;        
+      }
+    </style>	
+   
+<div class="container">   
+	<div class="row">	
+		#{leftMenu  course:course, isActive:'1' /}
+		<div class="span8">	
+		<div class="b-box">
+			<div class="b-box__header"><h3>Syllabus</h3></div>
+			<div class="b-box__content">
+				<p>
+				#{verbatim}
+				${course.syllabus}
+				#{/verbatim}
+				</p>						
+				<hr />
+				#{if course.user.email == session.email}			
+					<script type="text/javascript" src="@{'/public/javascripts/nicEdit.js'}"></script>
+					<script type="text/javascript">
+						bkLib.onDomLoaded(function() { nicEditors.allTextAreas() });
+					</script>	
+					<h3>Edit syllabus.</h3>
+					<form action="@{MyOwnCourse.editSyllabus()}" class="form-horizontal" method="post">				    	
+						<textarea name="syllabus" style="width: 100%;" >${course.syllabus}</textarea>		
+						<input type="hidden" name="courseId" value="&{course.id}"> 					
+						<button type="submit" class="btn btn-primary">Edit syllabus</button>							
+					</form>
+				#{/if}
+			</div>
+			</div>
+		</div>
+		<div class="span3">
+			<a href="@{MyOwnCourse.courseInfo(course.id)}">News</a>		
+		</div>
+	</div>					
+</div> 
+<script type="text/javascript">    
+    function strip(html)
+    {
+       var tmp = document.createElement("DIV");
+       tmp.innerHTML = html;
+       return tmp.textContent||tmp.innerText;
+    }
+	</script>

@@ -1,0 +1,108 @@
+#{extends 'mainOwnCourse.html' /}
+#{set title:'Home' /}
+<link rel='stylesheet' type='text/css' href="@{'/public/stylesheets/fullcalendar.css'}" />
+    <style type="text/css">
+      .span4 {
+        padding-top: 20px;        
+      }
+    </style>	
+   <script type="text/javascript">
+  var _kmq = _kmq || [];
+  function _kms(u){
+    setTimeout(function(){
+      var s = document.createElement('script'); var f = document.getElementsByTagName('script')[0]; s.type = 'text/javascript'; s.async = true;
+      s.src = u; f.parentNode.insertBefore(s, f);
+    }, 1);
+  }
+  _kms('//i.kissmetrics.com/i.js');
+  _kms('//doug1izaerwt3.cloudfront.net/d3f4a53827dd35dbe9192fc7a5d1b0abe407d1f3.1.js');
+</script>   
+<div class="container">   
+	<div class="row">	
+		#{leftMenu  course:course, isActive:'2' /}
+		 <div class="span8">
+<script type="text/javascript">
+  _kmq.push(['record', 'Viewed Calendar', {
+                      'user_course_relation':'teacher'                 }]);
+</script>        <script type="text/javascript">
+  _kmq.push(['trackClick', '.fc-event_deadline', 'Clicked on red event', {
+                      'user_course_relation':'teacher'                 }]);
+</script>        <script type="text/javascript">
+  _kmq.push(['trackClick', '.fc-event_attendance', 'Clicked on blue event', {
+                      'user_course_relation':'teacher'                 }]);
+</script>        <script type="text/javascript">
+  _kmq.push(['trackClick', '.fc-event-skin', 'Clicked on orange event', {
+                      'user_course_relation':'teacher'                 }]);
+</script>
+
+    <div class="b-calendar b-calendar_owner" eventSources="course/2064/events|canAdd">
+    </div>
+                    </div>
+		<div class="span3">
+				
+		</div>
+	</div>					
+</div>
+    
+    
+ #{set 'moreScripts' }       
+    <script type="text/javascript" language="JavaScript">
+       init = ['flash', 'userinfo', 'ajaxspinner' ,'calendar'];
+    </script>
+
+    <!--[if lt IE 9]>
+    <script src="vendor/html5shiv/html5shiv.js"></script>
+    <![endif]-->
+
+
+            <script type="text/javascript" src="@{'/public/javascripts/vendors.js'}"></script>
+    
+
+            <script type="text/javascript" src="@{'/public/javascripts/i18n.js'}"></script>
+    
+            <script type="text/javascript" src="@{'/public/javascripts/all.js'}"></script>
+    
+        <!-- Make IE8 and below responsive by adding CSS3 MediaQuery support -->
+    <!--[if lt IE 9]>
+      <script type="text/javascript" src="http://css3-mediaqueries-js.googlecode.com/svn/trunk/css3-mediaqueries.js"></script>
+    <![endif]-->
+<script type="text/javascript" src="@{'/public/javascripts/fullcalendar.js'}"></script>
+<script type="text/javascript">
+  var uvOptions = {};
+  (function() {
+    var uv = document.createElement('script'); uv.type = 'text/javascript'; uv.async = true;
+    uv.src = ('https:' == document.location.protocol ? 'https://' : 'http://') + 'widget.uservoice.com/ExzrXsARw244fUIV4wSYQ.js';
+    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(uv, s);
+  })();
+</script>        
+<script type="text/javascript">
+	var _gaq = _gaq || [];
+	_gaq.push(['_setAccount', 'UA-23195921-1']);
+	_gaq.push(['_setDomainName', 'lectrio.com']);
+	_gaq.push(['_trackPageview']);
+
+	(function() {
+	var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+	ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+	var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+	})();
+</script>        
+<script type="text/javascript">
+    var GoSquared = {};
+    GoSquared.acct = "GSN-683715-T";
+    (function(w){
+    function gs(){
+        w._gstc_lt = +new Date;
+        var d = document, g = d.createElement("script");
+        g.type = "text/javascript";
+        g.src = "//d1l6p2sc9645hc.cloudfront.net/tracker.js";
+        var s = d.getElementsByTagName("script")[0];
+        s.parentNode.insertBefore(g, s);
+    }
+    w.addEventListener ?
+        w.addEventListener("load", gs, false) :
+        w.attachEvent("onload", gs);
+    })(window);
+</script>   
+#{/set}
+

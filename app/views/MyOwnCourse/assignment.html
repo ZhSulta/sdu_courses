@@ -1,0 +1,180 @@
+#{extends 'mainOwnCourse.html' /}
+#{set title:'Home' /}
+    <style type="text/css">
+      .span4 {
+        padding-top: 20px;        
+      }
+      input, textarea, .uneditable-input {
+width: 300px;
+}
+.input-xlarge {
+width: 300px;
+}
+    </style>	
+<div class="container">   
+	<div class="row">	
+	#{leftMenu  course:course, isActive:'4' /}
+        <div class="span8">        
+			<div class="container-fluid">
+  	    		<div class="row-fluid">
+  	    		#{if questions}
+  	    		<form action="@{MyOwnCourse.checkAssignment()}">
+  	    		#{/if}
+ 	    			<h2>${assignment.topic}</h2>
+					<h3>${assignment.title}</h3>
+					
+					#{list items:questions, as:'q'}
+						<div class="hero-unit text">
+							<p>${q.title}</p>
+							<span style="font-size: .9em;">${q.text}</span>
+							<br/>
+							#{list items:q.answers, as:'a'}
+								#{if q.oneAnswer==1}
+									<input type="radio" name="answer[]" value="${a.id}" />										
+								#{/if}
+								#{else}
+									<input type="checkbox" name="answer[]" value="${a.id}"/>																
+								#{/else}
+								${a.text}
+								#{if course.user.email == session.email}	
+									<a id="edit" data-toggle="modal" href="#myModal1" onclick="edit1(${a.id},'${a.text}',${a.correctness},${q.id})">Edit</a>											
+									<a href="@{MyOwnCourse.deleteAssignmentAnswer(course.id,assignment.id,q.id,a.id)}">Delete</a>
+									#{if a.correctness}
+										<b style="color: green;padding-left: 20px;">correct</b>												
+									#{/if}
+								#{/if}
+								<br/>										
+							#{/list}
+							#{if course.user.email == session.email}							
+							
+					        <a class="btn btn-primary" data-toggle="modal" href="#myModal1" type="button" onclick="newAnswer(${q.id})">Add answer</a>
+							<br/>
+							<a href="#">Edit question</a>
+							#{/if}
+						</div>
+					#{/list}
+				
+					#{if questions}
+						<input type="hidden" name="assignmentId" value="${assignment.id}">
+						<input type="hidden" name="courseId" value="${course.id}">
+		  	    		<button type="submit" class="btn btn-primary">Submit Answers</button>
+	  	    		</form> 
+	  	    		#{/if}
+				</div>
+			</div>			       
+        </div><!--/span-->
+        <div class="span3">
+        #{if course.user.email == session.email}
+      		<a class="btn btn-primary pull-right" data-toggle="modal" href="#myModal" type="button">New Question</a>		
+			<div id="myModal" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" style="display: none;">
+	            <div class="modal-header">
+	            	<a class="close" data-dismiss="modal">×</a>
+	              <h3 id="myModalLabel">New Question</h3>
+	            </div>
+	             <form action="@{MyOwnCourse.addAssignmentQuestion()}" class="form-horizontal">			             
+		         	<div class="modal-body">                 	
+		            	<div class="control-group">
+					    	<label class="control-label" for="title">Title</label>
+					    	<div class="controls">
+					      		<input type="text" id="title" name="title" placeholder="Write assingment title">
+					   		</div>
+					  	</div>
+					  	<div class="control-group">
+				            <label class="control-label" for="question">Question</label>
+				            <div class="controls">
+				              <textarea class="input-xlarge" id="question" placeholder="Write question" name="text" rows="3" cols="30"></textarea>		              
+				            </div>
+				        </div>
+					  	<div class="control-group">
+					    	<label class="control-label" for="score">Score</label>
+					    	<div class="controls">
+					      		<input type="text" id="score" name="score" placeholder="Score for this question">
+					   		</div>
+					  	</div>
+					  	<div class="control-group">
+				            <label class="control-label" for="explanation">Explanation</label>
+				            <div class="controls">
+				              <textarea class="input-xlarge" id="explanation" placeholder="Write explanation if you want" name="explanation" rows="3" cols="30"></textarea>		              
+				            </div>
+				        </div>
+					  	<input type="hidden" name="assignmentId" value="${assignment.id}">
+					  	<input type="hidden" name="courseId" value="${course.id}">            		                 						   				
+					</div>
+		            <div class="modal-footer">
+		            	<button class="btn" data-dismiss="modal">Close</button>
+		            	<button type="submit" class="btn btn-primary">Add Question</button>
+		            </div>	    	
+	            </form>			            
+	        </div>
+	        
+	        
+	        <div id="myModal1" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" style="display: none;">
+	            <div class="modal-header">
+	            	<a class="close" data-dismiss="modal">×</a>
+	              <h3 id="myModalLabel">New Answer</h3>
+	            </div>
+	             <form action="@{MyOwnCourse.addAssignmentAnswer()}" class="form-horizontal">
+		         	<div class="modal-body">                 	
+		            	<div class="control-group">
+					    	<label class="control-label" for="text">Answer</label>
+					    	<div class="controls">
+					      		<input type="text" id="text" name="text" placeholder="Write answer"/>
+					   		</div>
+					  	</div>
+					  	<div class="control-group">
+					    	<label class="control-label" for="correct">Correct</label>
+					    	<div class="controls">
+					    		<input type="checkbox" name="correctness" id="correct" checked="false"/>										      		
+					   		</div>
+					  	</div>
+					  	<input type="hidden" id="assignmentAnswer" name="assignmentAnswerId" value="">										  	
+				        <input type="hidden" id="assignmentQuestion" name="questionId" value="">
+					  	<input type="hidden" name="assignmentId" value="${assignment.id}">
+					  	<input type="hidden" name="courseId" value="${course.id}">            		                 						   				
+					</div>
+		            <div class="modal-footer">
+		            	<button class="btn" data-dismiss="modal">Close</button>
+		            	<button type="submit" class="btn btn-primary">Add Answer</button>
+		            </div>	    	
+	            </form>
+	        </div>
+	        #{/if}
+        </div>
+      </div><!--/row-->			
+</div>
+<script type="text/javascript">
+function edit1(id,text,correctness,questionId)
+{
+	console.log('sulta '+id);
+	$("#assignmentAnswer").val(id);
+	$("#text").val(text);
+	$("#assignmentQuestion").val(questionId);
+	document.getElementById("correct").checked=correctness;
+}
+function newAnswer(id)
+{
+	console.log('sulta '+id);
+	console.log(id);
+	$("#assignmentQuestion").val(id);
+	document.getElementById("correct").checked=false;
+}
+// Wait for the page to load first
+window.onload = function() {
+	
+  //Get a reference to the link on the page
+  // with an id of "mylink"
+  //var a = document.getElementById("edit");
+  //var a = document.getElementByName("edit");
+  //Set code to run when the link is clicked
+  // by assigning a function to "onclick"
+  /*
+  a.onclick = function() {
+	console.log('sulta');
+	
+	$("#text").val("123");
+	//document.getElementById('gadget_url').value = '';
+    return true;
+  }
+	  )*/
+}
+</script>

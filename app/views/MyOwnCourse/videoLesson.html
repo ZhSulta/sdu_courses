@@ -1,0 +1,90 @@
+#{extends 'mainOwnCourse.html' /}
+#{set title:'Home' /}
+
+    <style type="text/css">
+      .span4 {
+        padding-top: 20px;        
+      }
+    </style>	
+   
+<div class="container">   
+	<div class="row">	
+	#{leftMenu course:course, isActive:'3' /}
+		<div class="span8">
+			<div class="b-box">
+			<div class="b-box__header"><h3>Lessons</h3></div>
+			<div class="b-box__content">
+			<h2>${video?.name}</h2>
+			<p>${video?.topic}</p>
+			<ul id="sortable" class="unstyled b-catalog">
+				<iframe width="560" height="420" src="${video.url}" frameborder="0" allowfullscreen="tru"></iframe>
+				</br>		          		
+				#{if course.user.email == session.email}	
+				<a href="@{MyOwnCourse.removeVideo(course.id,video.id)}">
+       				Remove this video.
+       			</a>
+       			#{/if}
+			</ul>
+			</div>
+			</div>	
+		</div>
+		<div class="span3">
+		#{if course.user.email == session.email}
+			<p><small><a class="grey" data-toggle="modal" href="#myModal">Edit</a></small></p>
+		#{/if}
+        	<p><small>Modified 3 days ago</small></p>        	
+        	<p>
+	        	<select class="span2" onchange="window.location.href = this.value" style="margin-bottom:0; line-height: 20px; height: 28px; vertical-align: top; width: 100%">
+		            <option value="#">Change lesson</option>
+		            <option value="#" disabled="true">-------------</option>
+		            #{list items:course.videos, as:'v'}
+		            #{if v.id == video.id}
+						<option value="@{MyOwnCourse.videoLesson(course.id,v.id)}" disabled="true" >${v.name?v.name:v.topic}</option>
+					#{/if}						
+					#{else}
+						<option value="@{MyOwnCourse.videoLesson(course.id,v.id)}" >${v.name?v.name:v.topic}</option>
+					#{/else}
+					#{/list}
+				</select>
+	    	</p>
+    		<p><small><a href="@{MyOwnCourse.lesson(course.id)}" class="grey">Back to lesson list</a></small></p>
+    	</div>
+	</div>					
+</div>
+#{if course.user.email == session.email}
+      <div id="myModal" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" style="display: none;">
+        <div class="modal-header">
+        	<a class="close" data-dismiss="modal">×</a>
+          <h3 id="myModalLabel">Edit Video</h3>
+        </div>
+         <form action="@{MyOwnCourse.addVideo()}" class="form-horizontal">
+      	<div class="modal-body">                 	
+         	<div class="control-group">
+    	<label class="control-label" for="topic" >Topic</label>
+    	<div class="controls">
+      		<input type="text" id="topic" value="${video?.topic}" name="topic" placeholder="Write same topic or new topic">
+   		</div>
+  	</div>
+  	<div class="control-group">
+    	<label class="control-label" for="inputName">Name</label>
+    	<div class="controls">
+      		<input type="text" id="inputName" name="name" value="${video?.name}" placeholder="Write name of video">
+   		</div>
+  	</div>
+           		<div class="control-group">
+    	<label class="control-label" for="inputUrl">Url address</label>
+    	<div class="controls">
+      		<input type="text" id="inputUrl" name="url" value="${video?.url}" placeholder="Write url address of a video">
+   		</div>
+  	</div>   
+  	<input type="hidden" name="courseId" value="&{course.id}">
+  	<input type="hidden" name="videoId" value="&{video.id}">            		                 						   				
+</div>
+         <div class="modal-footer">
+         	<button class="btn" data-dismiss="modal">Close</button>
+         	<button type="submit" class="btn btn-primary">Update</button>
+         </div>	    	
+        </form>
+    </div>        	   
+    </ul> 
+    #{/if}          

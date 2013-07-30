@@ -1,0 +1,77 @@
+#{extends 'main.html' /}
+#{set title:'Home' /}
+
+ <div class="container" style="padding-top:50px;">
+            <div class="row" style="">
+<div class="span8">    
+    
+    
+#{form @MyCourse.createCourse(), enctype:'multipart/form-data'}
+	#{if flash.error}
+		<h6 class="error">
+			&{flash.error}
+		</h6>
+	#{/if}
+	#{if flash.success}
+		<h6 class="success">
+			&{flash.success}
+		</h6>
+	#{/if}
+
+	<fieldset>
+	    <legend>New Course</legend>
+	    <div class="control-group">
+		      <label class="control-label" for="input01">Course name</label>
+		      <div class="controls">
+		      	<input type="text" class="input-xlarge" name="courseName" rel="popover" data-content="Enter your first and last name." data-original-title="Full Name">	        
+		      </div>
+		</div>
+	    <div class="control-group">
+		      <label class="control-label" for="input01">Title</label>
+		      <div class="controls">
+		      	<input type="text" class="input-xlarge" name="smallDescription" rel="popover" data-content="Enter your first and last name." data-original-title="Full Name">	        
+		      </div>
+		</div>
+	    <div class="control-group">
+		      <label class="control-label" for="input01">Description</label>
+		      <div class="controls">
+		      	<input type="text" class="input-xlarge" name="description" rel="popover" data-content="Enter your first and last name." data-original-title="Full Name">	        
+		      </div>
+		</div>
+	    <div class="control-group">
+		      <label class="control-label" for="input01">University</label>
+		      <div class="controls">
+		      	<input type="text" class="input-xlarge" name="university" rel="popover" data-content="Enter your first and last name." data-original-title="Full Name">	        
+		      </div>
+		</div>
+		<div class="control-group">
+		      <label class="control-label" for="input01">Duration</label>
+		      <div class="controls">
+		      	<input type="text" class="input-xlarge" name="duration" rel="popover" data-content="Enter your first and last name." data-original-title="Full Name">	        
+		      </div>
+		</div>
+		<div class="control-group">
+		      <label class="control-label" for="input01">Url of introduction video</label>
+		      <div class="controls">
+		      	<input type="text" class="input-xlarge" name="videoUrl" rel="popover" data-content="Enter your first and last name." data-original-title="Full Name">	        
+		      </div>
+		</div>
+		<div class="control-group">
+		      <label class="control-label" for="input01">Photo</label>
+		      <div class="controls">
+		      	<input type="file" id="photo" name="photo" />		      		       
+		      </div>
+		</div>
+		
+		<div class="control-group">
+			<label class="control-label" for="input01"></label>
+		      <div class="controls">
+		       <button type="submit" class="btn btn-success" rel="tooltip" title="first tooltip">Create new course</button>		       
+		      </div>
+		</div>
+	</fieldset>
+#{/form}
+	</div>
+		</div>
+			</div>
+			

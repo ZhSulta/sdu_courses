@@ -1,0 +1,142 @@
+#{extends 'main.html' /}
+#{set title:'Home' /}
+    <style type="text/css">
+      .span4 {
+        padding-top: 20px;        
+      }
+    </style>	
+<div class="container">   
+	<div class="row">
+		<div class="span8">
+		<img src="@{Application.userPhoto(user.id)}" style="width: 120px; height: 120px;" class="img-polaroid">
+		
+			${user.email}
+			<p>
+				Change language to
+				#{if lang.equals("en")}
+					<a href="@{Application.changeLanguage('ru')}">Russian</a>
+				#{/if}
+				#{else}
+					<a href="@{Application.changeLanguage('en')}">Английский</a>
+				#{/else}
+			</p> 
+			<div class="tabbable"> <!-- Only required for left/right tabs -->
+			  <ul class="nav nav-tabs">
+			    <li class="active">
+			    	<a href="#tab1" data-toggle="tab">My courses</a>
+			    </li>
+			    <li>
+			    	<a href="#tab2" data-toggle="tab">My own courses</a>
+			    </li>
+			    <li>
+			    	<a href="#tab3" data-toggle="tab">Questions</a>
+			    </li>
+			  </ul>
+			  <div class="tab-content">
+			    <div class="tab-pane active" id="tab1">
+					#{list items:myCourses, as:'i'}
+						<div class="hero-unit">
+							<h3><a href="@{MyOwnCourse.myOWnCourse(i.course.id)}">${i.course.name}</a></h3>
+						</div>
+					#{/list}
+			    </div>
+			    <div class="tab-pane" id="tab2">
+			    	#{list items:myOwnCourses, as:'i'}
+			    		<h3><a href="@{MyOwnCourse.myOwnCourse(i.id)}">${i.name}</a></h3>						
+					#{/list}
+			    </div>
+			    <div class="tab-pane" id="tab3">
+			    	<style>
+.short-summary {
+border-top: 1px dotted #ccccce;
+position: relative;
+overflow: hidden;
+padding: .5em;
+}
+.short-summary .counts {
+margin-right: 0;
+margin-top: 4px;
+padding-right: 2px;
+position: absolute;
+top: .5em;
+left: 0;
+bottom: 0;
+width: 17em;
+}
+.item-count {
+font-size: 20px;
+font-weight: bold;
+}
+.short-summary .votes, .short-summary .status, .short-summary .views {
+font-size: 12px;
+height: 42px;
+margin: 0 4px 0 0;
+padding: 8px 2px 0;
+text-align: center;
+width: 52px;
+float: left;
+}
+.short-summary .question-summary-wrapper {
+margin-left: 17em;
+min-height: 0;
+}
+.short-summary .userinfo {
+color: #555753;
+float: right;
+margin-top: -10px;
+}
+.tags {
+display: block;
+float: left;
+line-height: 250%;
+margin-top: 12px;
+}
+.short-summary:first-of-type {
+border-top: 0;
+}
+</style>
+			        #{list items:questions, as:'q'}   
+					<div class="short-summary">
+					    <div class="counts">
+					        <div class="votes">
+					            <div class="item-count">${q.votes_number}</div>
+					            <div>vote</div>
+					        </div >
+					        <div title="this question has an accepted answer" class="status answered-accepted answered">
+					            <div class="item-count">${q.answers_number}</div>
+					            <div>answers</div>
+					        </div>
+					        <div class="views">
+					             <div class="item-count">${q.views_number}</div>
+					             <div>views</div>
+					        </div>
+					    </div>
+					
+					    <div class="question-summary-wrapper">
+					        <h4>
+					        	<a title=" ${q.text.length() > 200 ? q.text[0..200] + '…' : q.text}" href="@{MyOwnCourse.question(courseId,q.id)}" >${q.title}</a>
+					        </h4>
+					        <div class="userinfo">
+					            <span class="relativetime" title="${q.publish_date.format('dd MMM hh:mm:ss')}">${q.publish_date.format('dd MMM hh:mm:ss')}</span>
+					            <a href="#">
+					            	#{if q.user.username && q.user.username.length()>0}
+					            		${q.user.username}
+					            	#{/if}
+					            	#{else}
+					            		${q.user.email}
+					            	#{/else}		            	
+					            </a>		
+					        </div>
+					    </div>
+					</div>
+					#{/list}
+			    </div>
+			  </div>
+			</div>
+		</div>
+		<div>
+			<h3>Points</h3>
+			
+		</div>
+	</div>							
+</div>

@@ -1,0 +1,79 @@
+#{extends 'mainOwnCourse.html' /}
+#{set title:'Home' /}
+#{set 'moreStyles'}
+<style type="text/css">
+.span4 {
+  padding-top: 20px;        
+}
+</style>	
+#{/set}
+<div class="container">   
+	<div class="row">	
+		#{leftMenu  course:course, isActive:'7' /}
+		<div class="span8">
+		    <div class="b-box">
+			<div class="b-box__header"><h3>Course Sections</h3></div>
+			<div class="b-box__content">
+			#{form @MyOwnCourse.editCourseTabs(course?.id), class:'form-horizontal'}
+				#{if flash.error}
+					<h6 class="error">
+						&{flash.error}
+					</h6>
+				#{/if}
+				#{if flash.success}
+					<h6 class="success">
+						&{flash.success}
+					</h6>
+				#{/if}
+				<p>You can setup what sections you want to have on your course:</p>
+				<p>
+				    <input type="checkbox" id="course_tabs_courseTabs_1" name="isTimeTable"   
+				     class="pull-left" value="true" />
+					<label style="margin-left: 20px" for="course_tabs_courseTabs_1">Timetable</label>
+			    </p>
+				<p>
+				    <input type="checkbox" id="course_tabs_courseTabs_2" name="isLessons"   
+				     class="pull-left" value="true"/>
+					<label style="margin-left: 20px" for="course_tabs_courseTabs_2">Lessons</label>
+			    </p>
+				<p>
+				    <input type="checkbox" id="course_tabs_courseTabs_3" name="isAssignments"  
+				      class="pull-left" value="true"/>
+					<label style="margin-left: 20px" for="course_tabs_courseTabs_3">Assignments</label>
+			    </p>
+				<p>
+				    <input type="checkbox" id="course_tabs_courseTabs_4" name="isDiscussions"  
+				      class="pull-left" value="true"/>
+					<label style="margin-left: 20px" for="course_tabs_courseTabs_4">Discussions</label>			    
+				</p>
+			<input type="hidden" name="courseId" value="${course.id}" />
+		            			
+		   	<button type="submit" value="Update" class="btn btn-primary">Update Sections</button>
+				
+			#{/form}
+			</div>
+			</div>
+		</div>
+		#{rightSettingsMenu  course:course, isActive:'2' /}
+	</div>
+</div>
+
+#{set 'moreScripts'}    
+<script type="text/javascript">
+	if(${course.isTimeTable}){
+		$('#course_tabs_courseTabs_1').prop('checked', true);
+	}
+	if(${course.isLessons}){
+		$('#course_tabs_courseTabs_2').prop('checked', true);
+	}
+	if(${course.isAssignments}){
+		$('#course_tabs_courseTabs_3').prop('checked', true);
+	}
+	if(${course.isDiscussions}){
+		$('#course_tabs_courseTabs_4').prop('checked', true);
+	}
+	
+	console.log(${course.isLessons});
+	
+</script>
+#{/set}  

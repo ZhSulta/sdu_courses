@@ -1,0 +1,130 @@
+#{extends 'mainOwnCourse.html' /}
+#{set title:'Home' /}
+
+    <style type="text/css">
+      .span4 {
+        padding-top: 20px;        
+      }
+    </style>	
+       <link href="@{'/public/stylesheets/datepicker.css'}" rel="stylesheet" />
+<div class="container">   
+	<div class="row">	
+		#{leftMenu  course:course, isActive:'1' /}
+		<div class="span8">	
+		<div class="b-box">
+			<div class="b-box__header"><h3>New Homework</h3></div>
+			<div class="b-box__content">
+			<form action="@{MyOwnCourse.addHomework()}" method="post" class="form-horizontal" enctype="multipart/form-data">
+			 	<div class="modal-body">                 	
+	            	<div class="control-group">
+				    	<label class="control-label" for="topic">Topic</label>
+				    	<div class="controls">
+				      		<input type="text" id="topic" name="topic" value="${homework?.topic}" placeholder="Write same topic or new topic">
+				   		</div>
+				  	</div>
+				  	<div class="control-group">
+				    	<label class="control-label" for="title">Title</label>
+				    	<div class="controls">
+				      		<input type="text" id="title" name="title" value="${homework?.title}"placeholder="Write assingment title">
+				   		</div>
+				  	</div>
+               		<div class="control-group">
+				    	<label class="control-label" for="attempts">Attempts</label>
+				    	<div class="controls">
+				      		<input type="text" id="attempts" name="attempts" value="${homework?.attempts}" placeholder="Number of attempts">
+				   		</div>
+				  	</div>
+				  	<div class="control-group">
+			            <label class="control-label" for="dp4">Due date</label>
+			            <div class="controls">
+			              <div class="input-append date" id="dp4" data-date="%{out.print(new Date());}%" data-date-format="dd-mm-yyyy">
+							<input class="span2" size="16" value="${homework?.due_date}" type="text" name="due_date" readonly>
+							<span class="add-on"><i class="icon-calendar"></i></span>
+						  </div>		              
+			            </div>
+			        </div>
+			        <div class="control-group">
+						<label class="control-label" for="file">Files</label>
+						<div class="controls">
+							<div id="files">
+							#{list items:homework?.files, as:'f'}
+								<p>
+									<span><a href="@{MyOwnCourse.downloadFile(f.id)}">${f.fileName}</a></span>
+									<span><a style="color:red;" href="@{MyOwnCourse.deleteHomeworkFile(course.id, homework.id, f.id)}">delete</a></span>
+								</p>
+							#{/list}
+					   		</div>
+				   			<input type="file" id="file" name="file" />		      		       
+						</div>
+					</div>
+					
+				  	<input type="hidden" name="courseId" value="${course.id}"> 
+				  	#{if homework?.id}           		                 						   				
+				  		<input type="hidden" name="homeworkId" value="${homework?.id}">            		                 						   				
+					#{/if}
+					<script type="text/javascript" src="@{'/public/javascripts/nicEdit.js'}"></script>
+					<script type="text/javascript">
+						bkLib.onDomLoaded(function() { nicEditors.allTextAreas() });
+					</script>	
+					<textarea name="text" style="width: 100%;">${homework?.text}</textarea>			
+					
+				</div>
+				<div class="modal-footer">
+	            	<button class="btn" data-dismiss="modal">Close</button>
+	            	<button type="submit" class="btn btn-primary">Add Homework</button>
+	            </div>	    	
+        	    </form>
+        	  </div>
+			</div>
+		</div>
+	</div>					
+</div> 
+
+#{set 'moreScripts'}
+<script src="@{'/public/javascripts/bootstrap-datepicker.js'}"></script>
+<script>
+jQuery(document).ready(function(){
+    console.log('ready');
+    document.getElementById('file').onchange = function () {
+    	var fullPath = this.value;
+	    if (fullPath) {
+			var startIndex = (fullPath.indexOf('\\') >= 0 ? fullPath.lastIndexOf('\\') : fullPath.lastIndexOf('/'));
+	    	var filename = fullPath.substring(startIndex);
+	    	if (filename.indexOf('\\') === 0 || filename.indexOf('/') === 0) {
+	    		filename = filename.substring(1);
+	    	}
+	    	  jQuery("#files").append("<p>"+ filename +"</p>");
+	     }
+	  };
+		
+		window.prettyPrint && prettyPrint();
+		var nowTemp = new Date();
+		var now = new Date(nowTemp.getFullYear(), nowTemp.getMonth(), nowTemp.getDate(), 0, 0, 0, 0);
+		
+		var checkin = $('#dp3').datepicker({
+			  onRender: function(date) {
+			    return date.valueOf() < now.valueOf() ? 'disabled' : '';
+			  }
+			}).on('changeDate', function(ev) {
+				checkin.hide();
+		}).data('datepicker');
+		var checkout = $('#dp4').datepicker({
+			  onRender: function(date) {
+			    return date.valueOf() < now.valueOf() ? 'disabled' : '';
+			  }
+			}).on('changeDate', function(ev) {
+				checkout.hide();
+		}).data('datepicker');
+			   	
+});
+
+    </script>
+#{/set}
+<script type="text/javascript">    
+    function strip(html)
+    {
+       var tmp = document.createElement("DIV");
+       tmp.innerHTML = html;
+       return tmp.textContent||tmp.innerText;
+    }
+	</script>

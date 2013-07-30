@@ -1,0 +1,35 @@
+#{extends 'mainCourse.html' /}
+#{set title:'Home' /}
+    <style type="text/css">
+      .span4 {
+        padding-top: 20px;        
+      }
+      
+    </style>	
+
+<div class="container">   
+	<div class="row">
+	<h3>${course.name}</h3>
+      <div class="span3 bs-docs-sidebar">
+        <ul class="nav nav-list bs-docs-sidenav">
+          #{list items:videos, as:'v'}	
+          	<li><a href="@{MyOwnCourse.myOwnCourse(courseId,v.id)}">&{v.name}</a></li> 
+          #{/list}                	   
+        </ul>                
+      </div>
+        <div class="span9">        
+			<div class="container-fluid">
+  	    		<div class="row-fluid">  	    		
+					<div class="span7">
+						#{if video}
+							<iframe width="560" height="420" src="${video.url}" frameborder="0" allowfullscreen="tru"></iframe>		          			
+						#{/if}
+						#{else}
+						No video.
+						#{/else}
+					</div>
+				</div>
+			</div>			       
+        </div><!--/span-->
+      </div><!--/row-->			
+</div>

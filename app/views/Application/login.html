@@ -1,0 +1,39 @@
+#{extends 'main.html' /}
+#{set title:'Home' /}
+
+ <div class="container" style="padding-top:50px;">
+            <div class="row" style="">
+                <div class="span3"  style="margin:0 auto; float: none; text-align: center;">
+        		<h1>Log In</h1>
+        		<br/>  
+        		#{form @MySecure.authenticate()}
+							#{if flash.error}
+								<h6 class="error">
+									&{flash.error}
+								</h6>
+							#{/if}
+							#{if flash.success}
+								<h6 class="success">
+									&{flash.success}
+								</h6>
+							#{/if}
+						     <p id="username-field">
+								<input type="text" placeholder="Username" name="username" id="username" value="${flash.username}" />
+							</p>
+							<p id="password-field">
+								<input type="password" placeholder="Password" name="password" id="password" value="" />
+							</p>
+							<p id="remember-field">
+								<label for="remember" class="checkbox" style="width:100px; margin-left: 80px;">
+									<input type="checkbox" name="remember" id="remember" value="true" ${flash.remember ? 'checked="true"' : ''} />
+									Remember
+								</label>
+							</p>
+							<p id="signin-field">
+								<input type="submit" id="signin" value="Sign in" class="btn btn-success" />
+							</p>				    
+		        #{/form} 
+				<div>
+			        <p>If you don't have an account with us yet you can sign up <a href="@{Application.signup()}" >here</a></p>
+			    </div> 
+		   	</div>	   

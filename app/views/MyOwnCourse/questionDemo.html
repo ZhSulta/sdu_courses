@@ -1,0 +1,220 @@
+#{extends 'mainOwnCourse.html' /}
+#{set title:'Home' /}
+    <style type="text/css">
+      .span4 {
+        padding-top: 20px;        
+      }
+.headNormal {
+border-bottom: 1px solid #777;
+font-size: 15px;
+font-weight: bold;
+margin-bottom: 12px;
+padding: 3px;
+text-align: left;
+}
+.vote-buttons {
+float: left;
+text-align: center;
+}
+a.post-vote, .favorite-mark, a.accept-answer {
+display: block;
+position: relative;
+margin-bottom: 5px;
+}
+a.post-vote.up {
+background-image: url('../public/images/sprite.png');
+background-position: left -70px;
+width: 24px;
+height: 24px;
+background-repeat: no-repeat;
+background-color: transparent;
+}
+.post-score, .comments-char-left-count {
+color: #777;
+font-size: 165%;
+font-weight: bold;
+padding: 0 0 3px;
+}
+a.post-vote.down {
+background-image: url('../public/images/sprite.png');
+background-position: left -118px;
+width: 24px;
+height: 24px;
+background-repeat: no-repeat;
+background-color: transparent;
+margin-top: 5px;
+}
+.favorite-mark {
+background-image: url('../public/images/sprite.png');
+background-position: left -246px;
+width: 24px;
+height: 24px;
+background-repeat: no-repeat;
+background-color: transparent;
+}
+.favorite-count {
+color: #777;
+font-size: 100%;
+font-weight: bold;
+padding: 0;
+}
+.question-body {
+font-size: 13px;
+line-height: 20px;
+min-height: 100px;
+padding-bottom: 5px;
+}
+.post-update-info {
+display: inline-block;
+float: right;
+margin: 0 0 8px 8px;
+padding: 8px;
+width: 190px;
+background-color: whiteSmoke;
+}
+.post-update-info img {
+float: left;
+margin: 4px 8px 0 0;
+width: 32px;
+}
+    </style>	
+<div class="container">   
+	<div class="row">	
+	#{leftMenu  course:course, isActive:'5' /}	
+		<div class="span8">
+		  <div class="b-box">
+		  <div class="b-box__header"><h3>Questions</h3></div>
+		  <div class="b-box__content">
+			<div class="headNormal">
+				<h3><a href="#">${question.title}</a></h3>
+			</div> 
+			<table style="width:100%;" id="question-table" >
+                <tr>
+                    <td style="width:30px;vertical-align:top">
+                        <div class="vote-buttons">
+							<a id="post-12000328-upvote" title="This post is useful (click again to undo)"
+							    class="ajax-command post-vote up "
+							     href="/vote/12000328/up/" rel="nofollow"> 
+							</a>
+							<div id="post-12000328-score" class="post-score"
+							    title="current number of votes">
+							    3
+							</div>
+							<a id="post-12000328-downvote" title="This post is not useful (click again to undo)"
+							    class="ajax-command post-vote down"
+							     href="/vote/12000328/down/" rel="nofollow"> </a>
+							<a id="favorite-mark" title="mark/unmark this question as favorite (click again to cancel)"
+							    class="ajax-command favorite-mark "
+							    href="/mark_favorite/12000328/" rel="nofollow"> </a>
+							<div id="favorite-count" class="favorite-count">
+							   123
+							</div>
+						</div>
+                    </td>
+                    <td>
+                        <div id="item-right">
+                            <div class="question-body">#{verbatim}${question.text}#{/verbatim}</div>                            
+							<div class='post-update-info post-update-info-user'>
+							    <p style="line-height:12px;">
+							        asked
+							        <strong>${question.publish_date.format('dd MMM hh:mm:ss')}</strong>
+							    </p>
+							    <img src="@{Application.userPhoto(question.user.id)}" width="32" height="32">				      	
+							    <p>
+								    #{if question.user.username && question.user.username.length()>0}
+					            		${question.user.username}
+					            	#{/if}
+					            	#{else}
+					            		${question.user.email}
+					            	#{/else}						            	
+							    </p>
+							    <br/>
+							    #{if session.email.equals(question.user.email)}
+							    	<a href="@{MyOwnCourse.deleteQuestion(course.id,question.id)}">Delete</a>
+							    #{/if}
+							</div>
+							<div class="clear"></div>
+						</div>
+					</td>
+                </tr>
+            </table>
+            <hr/>
+            #{list items:answers, as:'a'}
+            <div id="answer-container-12000442" class="answer ">
+				<table style="width:100%;">
+					<tr>
+						<td style="width:30px;vertical-align:top">
+							<div class="vote-buttons">
+								<a id="post-12000442-upvote" title="This post is useful (click again to undo)"
+			    				class="ajax-command post-vote up "
+			     				href="/vote/12000442/up/" rel="nofollow"> </a>
+								<div id="post-12000442-score" class="post-score"
+								    title="current number of votes">
+								    1
+								</div>
+								<a id="post-12000442-downvote" title="This post is not useful (click again to undo)"
+								    class="ajax-command post-vote down"
+								     href="/vote/12000442/down/" rel="nofollow"> 
+								</a>
+							</div>
+							</td>
+                            <td>
+                                <div class="item-right">
+                                    <div class="answer-body">
+                                    #{verbatim}
+         							${a.text}
+         							#{/verbatim}
+         							</div>
+                                    <div class="post-update-info-container">
+                                        <div class='post-update-info post-update-info-user'>
+										    <p style="line-height:12px;">
+										        answered
+										        <strong>${a.publish_date.format('dd MMM hh:mm:ss')}</strong>
+										    </p>
+										    <img src="@{Application.userPhoto(a.user.id)}" width="32" height="32">				      	
+										    <p>
+										    	#{if a.user.username && a.user.username.length()>0}
+								            		${a.user.username}
+								            	#{/if}
+								            	#{else}
+								            		${a.user.email}
+								            	#{/else}
+											    <br/>
+											    <br/>								    						            
+										    </p>
+										    #{if session.email.equals(a.user.email)}
+										    	<a href="@{MyOwnCourse.deleteAnswer(course.id,question.id,a.id)}">Delete</a>
+										    #{/if}										        										    										
+										</div>
+									</div>
+									<div class="clear"></div>
+                                </div>
+                            </td>
+                        </tr>
+				</table>
+			</div>
+            #{/list}
+            
+			<div>
+				<script type="text/javascript" src="@{'/public/javascripts/nicEdit.js'}"></script>
+				<script type="text/javascript">
+					bkLib.onDomLoaded(function() { nicEditors.allTextAreas() });
+				</script>	
+				<strong>Your answer</strong>
+				<hr/>
+				#{form @MyOwnCourse.addAnswer()}
+			          	<div class="control-group">
+					    	<div class="controls">
+					      		<textarea name="text" style="width: 100%; height: 50px;"></textarea>
+					   		</div>
+					  	</div>						  	
+						<input type="hidden" name="courseId" value="${course.id}">
+						<input type="hidden" name="questionId" value="${question.id}">            		                 						   							
+			        <button type="submit" class="btn btn-success">Post Your Answer</button>			
+				#{/form}
+			</div>
+			</div>
+			</div>
+		</div>					
+	</div>
+</div>
